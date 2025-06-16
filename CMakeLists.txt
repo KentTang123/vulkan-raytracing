@@ -8,12 +8,21 @@ project(vulkan-raytracing LANGUAGES C CXX)
 find_package(Vulkan REQUIRED)
 message("FOUND VULKAN SDK VERSION ${Vulkan_VERSION}")
 
+set(xdd "xdd")
+
+add_subdirectory(ext)
+
 file(GLOB_RECURSE SOURCE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp )
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILE})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${Vulkan_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE 
+    ${Vulkan_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${IMGUI_INCLUDE}
+    ${GLFW_INCLUDE}
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} imgui glfw)
 
 
 
